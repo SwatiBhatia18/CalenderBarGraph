@@ -1,0 +1,83 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f5f7fa;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Calendar styles */
+.rbc-calendar {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.rbc-header {
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+  font-weight: 600;
+  color: #495057;
+}
+
+.rbc-today {
+  background-color: #e3f2fd;
+}
+
+.rbc-selected {
+  background-color: #2196f3 !important;
+  color: white;
+}
+
+.has-data {
+  background-color: #ffeb3b !important;
+  color: #333;
+  font-weight: bold;
+}
+
+.rbc-event {
+  background-color: #4caf50;
+  border: none;
+  border-radius: 4px;
+}
+
+.rbc-toolbar {
+  margin-bottom: 20px;
+}
+
+.rbc-btn-group button {
+  background-color: #2196f3;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  margin-right: 5px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.rbc-btn-group button:hover {
+  background-color: #1976d2;
+}
+
+.rbc-btn-group button.rbc-active {
+  background-color: #1565c0;
+}
