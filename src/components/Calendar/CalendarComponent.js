@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
@@ -13,23 +13,23 @@ const CalendarComponent = () => {
   const dispatch = useDispatch();
   const { calendarData, selectedDate, currentView, currentDate } = useSelector((state) => state.calendar);
 
-  const handleSelectSlot = ({ start }) => {
+  const handleSelectSlot = useCallback(({ start }) => {
     dispatch(openModalWithDate(start));
-  };
+  }, [dispatch]);
 
-  const handleSelectEvent = (event) => {
+  const handleSelectEvent = useCallback((event) => {
     dispatch(openModalWithDate(event.start));
-  };
+  }, [dispatch]);
 
-  const handleNavigate = (date) => {
+  const handleNavigate = useCallback((date) => {
     dispatch(setCurrentDate(date));
-  };
+  }, [dispatch]);
 
-  const handleViewChange = (view) => {
+  const handleViewChange = useCallback((view) => {
     dispatch(setCurrentView(view));
-  };
+  }, [dispatch]);
 
-  const dayPropGetter = (date) => {
+  const dayPropGetter = useCallback((date) => {
     const hasData = hasDataForDate(date, calendarData);
     const isSelected = selectedDate && 
       date.toDateString() === selectedDate.toDateString();
@@ -59,21 +59,22 @@ const CalendarComponent = () => {
       className: className.trim(),
       style
     };
-  };
+  }, [calendarData, selectedDate]);
 
-  const events = Object.keys(calendarData).map(dateKey => {
-    const [day, month, year] = dateKey.split('-');
-    const date = new Date(year, month - 1, day);
-    
-    return {
-      id: dateKey,
-      title: '📊 Data Available',
-      start: date,
-      end: date,
-      allDay: true,
-      resource: calendarData[dateKey]
-    };
-  });
+  const events = useMemo(() => 
+    Object.keys(calendarData).map(dateKey => {
+      const [day, month, year] = dateKey.split('-');
+      const date = new Date(year, month - 1, day);
+      
+      return {
+        id: dateKey,
+        title: '📊 Data Available',
+        start: date,
+        end: date,
+        allDay: true,
+        resource: calendarData[dateKey]
+      };
+    }), [calendarData]);
 
   return (
     <div className="calendar-wrapper">
@@ -117,4 +118,4 @@ const CalendarComponent = () => {
   );
 };
 
-export default CalendarComponent;
+export default React.memo(CalendarComponent);

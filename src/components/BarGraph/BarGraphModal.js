@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Bar } from 'react-chartjs-2';
 import {
@@ -27,21 +27,22 @@ const BarGraphModal = () => {
   const dispatch = useDispatch();
   const { showModal, selectedDate, selectedDateData } = useSelector((state) => state.calendar);
 
-  if (!showModal) return null;
-
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     dispatch(closeModal());
-  };
+  }, [dispatch]);
 
-  const handleBackdropClick = (e) => {
+  const handleBackdropClick = useCallback((e) => {
     if (e.target === e.currentTarget) {
       handleClose();
     }
-  };
+  }, [handleClose]);
 
-  const chartData = transformDataForChart(selectedDateData);
+  const chartData = useMemo(() => 
+    transformDataForChart(selectedDateData), 
+    [selectedDateData]
+  );
 
-  const chartOptions = {
+  const chartOptions = useMemo(() => ({
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
@@ -111,7 +112,9 @@ const BarGraphModal = () => {
       duration: 1000,
       easing: 'easeInOutQuart'
     }
-  };
+  }), [selectedDate, selectedDateData]);
+
+  if (!showModal) return null;
 
   return (
     <div className="modal-backdrop" onClick={handleBackdropClick}>
@@ -178,4 +181,4 @@ const BarGraphModal = () => {
   );
 };
 
-export default BarGraphModal;
+export default React.memo(BarGraphModal);
